@@ -11,13 +11,26 @@ NOTES_SHARP = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
 # Scale dictionary
 SCALEDICT = [
+    ['Scale', 'Bebop Dominant', '1,2,3,4,5,6,b7,7'],
+    ['Scale', 'Bebop Half-diminished', '1,b2,b3,4,b5,5,b6,7'],
+    ['Scale', 'Bebop Major', '1,2,3,4,5,#5,6,7'],
+    ['Scale', 'Bebop Minor', '1,2,b3,3,4,5,6,b7'],
     ['Scale', 'Chromatic', '1,b2,2,b3,3,4,b5,5,b6,6,b7,7'],
+    ['Scale', 'In', '1,b2,4,5,b6'],
+    ['Scale', 'Insen', '1,b2,4,5,b7'],
+#    ['Scale', 'Istrian', '1,b2,b3,b4,b5,5'],
     ['Scale', 'Major', '1,2,3,4,5,6,7'],
-    ['Scale', 'Minor Natural', '1,2,b3,4,5,b6,b7'],
+    ['Scale', 'Major Harmonic', '1,2,3,4,5,b6,7'],
+#    ['Scale', 'Major Hungarian', '1,#2,3,#4,5,6,b7'],
+    ['Scale', 'Major Neapolitan', '1,b2,b3,4,5,6,7'],
     ['Scale', 'Minor Harmonic', '1,2,b3,4,5,b6,7'],
+    ['Scale', 'Minor Melodic', '1,2,b3,4,5,6,7'],
+    ['Scale', 'Minor Natural', '1,2,b3,4,5,b6,b7'],
+    ['Scale', 'Minor Neapolitan', '1,b2,b3,4,5,b6,7'],
     ['Scale', 'Major Pentatonic', '1,2,3,5,6'],
     ['Scale', 'Minor Pentatonic', '1,b3,4,5,b7'],
     ['Scale', 'Blues Pentatonic', '1,b3,4,b5,5,b7'],
+    ['Scale', 'Yo', '1,b3,4,5,b7'],
     ['Mode', 'Ionian', '1,2,3,4,5,6,7'],
     ['Mode', 'Dorian', '1,2,b3,4,5,6,b7'],
     ['Mode', 'Phrygian', '1,b2,b3,4,5,b6,b7'],
@@ -25,6 +38,7 @@ SCALEDICT = [
     ['Mode', 'Mixolydian', '1,2,3,4,5,6,b7'],
     ['Mode', 'Aeolian', '1,2,b3,4,5,b6,b7'],
     ['Mode', 'Locrian', '1,b2,b3,4,b5,b6,b7'],
+    ['Mode', 'Flamenco', '1,b2,3,4,5,b6,7'],
     ['Chord', 'Major', '1,3,5'],
     ['Chord', 'Minor', '1,b3,5'],
     ['Chord', '7th', '1,3,5,b7'],
@@ -79,7 +93,7 @@ class GuitarScale(object):
     def interval2idx(intervalinput):
         ''' Convert from interval numbers to notes '''
         interval_flat = ['1', 'b2', '2', 'b3', '3',
-                         '4', 'b5', '5', 'b6', '6', 'b7', '7']
+                          '4', 'b5', '5', 'b6', '6', 'b7', '7']
         interval_sharp = ['1', '#1', '2', '#2', '3',
                           '4', '#4', '5', '#5', '6', '#6', '7']
         if repr(intervalinput).find('b') >= 0:
@@ -99,7 +113,7 @@ class GuitarScale(object):
         ''' Calculate the notes '''
         scalenotes = [notes[x] for x in scale]
         fretboard = [[notes[(x + y) % 12] for x in range(MAXFRET)] for y in strings]
-        for string in xrange(len(strings)):  # eliminate notes not in scale
+        for string in range(len(strings)):  # eliminate notes not in scale
             for fret in range(MAXFRET):
                 if fretboard[string][fret] not in scalenotes:
                     fretboard[string][fret] = ''
@@ -158,7 +172,7 @@ class GuitarScale(object):
             tuning=' - '.join(tuning)
         ))
 
-        for current_string in xrange(len(strings)):
+        for current_string in range(len(strings)):
             fret_sym, nut_sym = '|', '||'
             if fretboard[current_string][0] == '':
                 output += ' ' * 2 + nut_sym
@@ -192,4 +206,4 @@ if __name__ == '__main__':
 
     SCALE = GuitarScale(key=ARGS.key, scale=ARGS.scale, chord=ARGS.chord, tuning=ARGS.tuning)
     SCALE.construct_fretboard()
-    print SCALE.printable_fretboard()
+    print(SCALE.printable_fretboard())
